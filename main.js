@@ -4,7 +4,7 @@ let newGameBtn = document.querySelector('.new-btn');
 let msgContainer = document.querySelector('.msg-container');
 let msg = document.querySelector('#msg');
 
-let turnO = true; // true = Player O (You), false = Computer X
+let turnO = true;
 
 const winPatterns = [
      [0, 1, 2],
@@ -26,7 +26,7 @@ const resetGame = () => {
 
 boxes.forEach((box) => {
      box.addEventListener('click', () => {
-          if (turnO && box.innerText === '') {  // ✅ Player O ka move
+          if (turnO && box.innerText === '') { 
                box.innerText = 'O';
                box.style.color = 'blue';
                box.disabled = true;
@@ -36,7 +36,6 @@ boxes.forEach((box) => {
 
                if (!msgContainer.classList.contains('hide')) return;
 
-               // ✅ Computer ki turn thoda delay ke sath
                setTimeout(computerMove, 600);
           }
      });
@@ -97,11 +96,10 @@ const checkWinner = () => {
      return false;
 };
 
-// ✅ Smart Computer Move
 const computerMove = () => {
-     if (turnO) return; // agar player ki turn hai toh kuch na kare
 
-     // Step 1: Try to win
+     if (turnO) return;
+
      for (let pattern of winPatterns) {
           let [a, b, c] = pattern;
           if (boxes[a].innerText === 'X' && boxes[b].innerText === 'X' && boxes[c].innerText === '') return placeMove(c);
@@ -109,7 +107,6 @@ const computerMove = () => {
           if (boxes[b].innerText === 'X' && boxes[c].innerText === 'X' && boxes[a].innerText === '') return placeMove(a);
      }
 
-     // Step 2: Block opponent (O)
      for (let pattern of winPatterns) {
           let [a, b, c] = pattern;
           if (boxes[a].innerText === 'O' && boxes[b].innerText === 'O' && boxes[c].innerText === '') return placeMove(c);
@@ -117,7 +114,6 @@ const computerMove = () => {
           if (boxes[b].innerText === 'O' && boxes[c].innerText === 'O' && boxes[a].innerText === '') return placeMove(a);
      }
 
-     // Step 3: Random move
      let emptyBoxes = [];
      boxes.forEach((box, index) => {
           if (box.innerText === '') emptyBoxes.push(index);
